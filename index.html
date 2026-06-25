@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>具身智能行业市场分析报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #1a2234;
+  --bg-card-hover: #1e2a40;
+  --accent-cyan: #00e5ff;
+  --accent-cyan-dim: rgba(0,229,255,0.15);
+  --accent-teal: #00bfa5;
+  --accent-amber: #ffab00;
+  --accent-red: #ff5252;
+  --accent-purple: #b388ff;
+  --accent-green: #69f0ae;
+  --text-primary: #e8eaf6;
+  --text-secondary: #9ea7ba;
+  --text-muted: #5c6478;
+  --border: rgba(255,255,255,0.06);
+  --glow-cyan: 0 0 30px rgba(0,229,255,0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+
+/* ── Navigation ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,14,23,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+  transition: transform 0.3s;
+}
+.nav-brand {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 0.25rem; overflow-x: auto; }
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.nav-links a:hover {
+  color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 6rem 2rem 4rem;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,229,255,0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,191,165,0.05), transparent),
+    radial-gradient(ellipse 40% 30% at 20% 70%, rgba(179,136,255,0.04), transparent);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 900px; text-align: center;
+}
+.hero-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero-title .highlight {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+.hero-stat {
+  background: rgba(26,34,52,0.6);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+.hero-stat:hover {
+  border-color: rgba(0,229,255,0.2);
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-2px);
+}
+.hero-stat-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  line-height: 1.2;
+}
+.hero-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+.section-header {
+  margin-bottom: 3rem;
+  position: relative;
+}
+.section-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1.25;
+}
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-cyan), transparent);
+  margin-top: 1rem;
+  border-radius: 2px;
+}
+
+/* ── Text ── */
+.lead {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.85;
+}
+p { margin-bottom: 1rem; }
+strong { color: var(--text-primary); font-weight: 600; }
+.mono { font-family: 'Space Mono', monospace; }
+
+/* ── Card ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(0,229,255,0.12);
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.card-title .icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Tech Architecture ── */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+.arch-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(26,34,52,0.4));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.arch-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 14px 14px 0 0;
+}
+.arch-card.brain::before { background: linear-gradient(90deg, #b388ff, #7c4dff); }
+.arch-card.cerebellum::before { background: linear-gradient(90deg, #00e5ff, #0091ea); }
+.arch-card.body::before { background: linear-gradient(90deg, #69f0ae, #00c853); }
+.arch-card:hover { transform: translateY(-3px); box-shadow: var(--glow-cyan); }
+.arch-card .label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.arch-card.brain .label { color: #b388ff; }
+.arch-card.cerebellum .label { color: #00e5ff; }
+.arch-card.body .label { color: #69f0ae; }
+.arch-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.arch-card p { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0; }
+
+/* ── Data Table ── */
+.data-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.data-table th {
+  background: rgba(0,229,255,0.06);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(0,229,255,0.03); }
+.data-table .company-name { color: var(--text-primary); font-weight: 600; }
+.data-table .num { font-family: 'Space Mono', monospace; font-size: 0.78rem; }
+.data-table .tag {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+.tag-green { background: rgba(105,240,174,0.12); color: #69f0ae; }
+.tag-amber { background: rgba(255,171,0,0.12); color: #ffab00; }
+.tag-red { background: rgba(255,82,82,0.12); color: #ff5252; }
+.tag-cyan { background: rgba(0,229,255,0.12); color: #00e5ff; }
+.tag-purple { background: rgba(179,136,255,0.12); color: #b388ff; }
+
+/* ── Chart ── */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.chart-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
+  align-items: center;
+  gap: 1rem;
+}
+.bar-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+  white-space: nowrap;
+}
+.bar-track {
+  height: 28px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  position: relative;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0;
+}
+.bar-fill.animated { /* JS will set width */ }
+.bar-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ── Pipeline ── */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.pipeline-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  position: relative;
+}
+.pipeline-step .step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.pipeline-step h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.pipeline-step .margin-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.pipeline-step ul {
+  list-style: none;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.pipeline-step li {
+  padding: 0.2rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+.pipeline-step li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.65rem;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+/* ── Gap Analysis ── */
+.gap-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+.gap-item {
+  display: grid;
+  grid-template-columns: 100px 1fr 80px;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  transition: all 0.3s;
+}
+.gap-item:hover { border-color: rgba(0,229,255,0.15); }
+.gap-dim { font-size: 0.85rem; font-weight: 600; }
+.gap-bar-container { display: flex; flex-direction: column; gap: 0.25rem; }
+.gap-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+.gap-bar-expect {
+  height: 100%;
+  background: rgba(0,229,255,0.3);
+  border-radius: 4px;
+}
+.gap-bar-reality {
+  height: 100%;
+  background: var(--accent-red);
+  border-radius: 4px;
+  margin-left: -4px;
+}
+.gap-level {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+.gap-large { background: rgba(255,82,82,0.12); color: #ff5252; }
+.gap-medium { background: rgba(255,171,0,0.12); color: #ffab00; }
+
+/* ── Business Model ── */
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+.model-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+}
+.model-card:hover {
+  border-color: rgba(0,229,255,0.15);
+  transform: translateY(-2px);
+}
+.model-card .model-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.04);
+  position: absolute;
+  top: 0.75rem; right: 1rem;
+  line-height: 1;
+}
+.model-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+.model-card .model-tag {
+  font-size: 0.68rem;
+  color: var(--accent-cyan);
+  margin-bottom: 0.75rem;
+}
+.model-card p { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0; }
+
+/* ── Risk Matrix ── */
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+.risk-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  transition: all 0.3s;
+}
+.risk-card:hover { border-color: rgba(0,229,255,0.12); }
+.risk-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.risk-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+.risk-card p { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0; }
+
+/* ── Recommendation ── */
+.rec-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.rec-tier {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  transition: all 0.3s;
+}
+.rec-tier:hover { border-color: rgba(0,229,255,0.15); }
+.rec-tier .tier-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.3rem 0;
+  border-radius: 6px;
+}
+.tier-1 .tier-label { background: rgba(0,229,255,0.12); color: var(--accent-cyan); }
+.tier-2 .tier-label { background: rgba(105,240,174,0.12); color: #69f0ae; }
+.tier-3 .tier-label { background: rgba(255,171,0,0.12); color: #ffab00; }
+.tier-4 .tier-label { background: rgba(255,82,82,0.1); color: #ff5252; }
+.rec-tier .tier-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.15rem; }
+.rec-tier .tier-info p { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0; }
+.rec-tier .tier-stars {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+/* ── Insight Box ── */
+.insight-box {
+  background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(0,191,165,0.04));
+  border: 1px solid rgba(0,229,255,0.15);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  margin: 2rem 0;
+  position: relative;
+}
+.insight-box::before {
+  content: '💡';
+  font-size: 1.2rem;
+  position: absolute;
+  top: -0.6rem; left: 1.25rem;
+  background: var(--bg-primary);
+  padding: 0 0.5rem;
+}
+.insight-box p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+.insight-box strong { color: var(--accent-cyan); }
+
+/* ── Bubble Risk ── */
+.bubble-indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.bubble-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.bubble-item .value {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.bubble-item .desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-teal), transparent);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem; top: 0.45rem;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-cyan);
+  background: var(--bg-primary);
+}
+.timeline-item .tl-year {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+}
+.timeline-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+.timeline-item p { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0; }
+
+/* ── Verdict ── */
+.verdict {
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(0,191,165,0.06));
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 18px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+.verdict-answer {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+}
+.verdict-answer .yes {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.verdict-answer .but {
+  color: var(--accent-amber);
+  font-size: 0.65em;
+}
+.verdict-sub {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Key Checklist ── */
+.checklist {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  margin: 2rem 0;
+}
+.checklist h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+.checklist-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item .check {
+  color: var(--accent-cyan);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+.footer p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .bar-row { grid-template-columns: 80px 1fr 60px; }
+  .gap-item { grid-template-columns: 80px 1fr 60px; }
+  .rec-tier { grid-template-columns: 60px 1fr; }
+  .rec-tier .tier-stars { display: none; }
+  .nav-links { display: none; }
+}
+
+/* ── Scroll animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">Embodied AI Report</div>
+  <div class="nav-links">
+    <a href="#overview">宏观概述</a>
+    <a href="#companies">企业图谱</a>
+    <a href="#supply-chain">生态链</a>
+    <a href="#demand">需求洞察</a>
+    <a href="#profit">利润模型</a>
+    <a href="#risks">风险挑战</a>
+    <a href="#career">职业判断</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Embodied Intelligence · Market Analysis · 2026</div>
+    <h1 class="hero-title">具身智能<br><span class="highlight">行业市场分析报告</span></h1>
+    <p class="hero-sub">覆盖宏观环境、头部企业、生态上下游、需求洞察、利润率、商业模式与职业价值判断，为进入该行业担任市场公关岗位提供全景决策参考</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">43%+</div>
+        <div class="hero-stat-label">2025-2030 复合增速</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">84.7%</div>
+        <div class="hero-stat-label">中国占全球出货量</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">$405B</div>
+        <div class="hero-stat-label">2030年市场规模</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">140+</div>
+        <div class="hero-stat-label">国内整机厂商</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 1: Overview -->
+<section class="section" id="overview">
+  <div class="section-header reveal">
+    <div class="section-num">Section 01</div>
+    <h2 class="section-title">宏观环境与行业概述</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <p class="lead reveal">具身智能（Embodied AI）指具备物理身体形态、能与真实世界实时交互的智能体。2022年以来的本轮革命，本质是<strong>AI大模型驱动的人形机器人新范式</strong>，与传统"预设程序+精密执行"的工业机器人有本质区别。</p>
+
+  <div class="arch-grid reveal">
+    <div class="arch-card brain">
+      <div class="label">Brain</div>
+      <h3>大脑</h3>
+      <p>大语言模型/多模态大模型，负责感知、理解、决策与泛化</p>
+    </div>
+    <div class="arch-card cerebellum">
+      <div class="label">Cerebellum</div>
+      <h3>小脑</h3>
+      <p>运动控制算法，负责实时协调、步态规划、力控</p>
+    </div>
+    <div class="arch-card body">
+      <div class="label">Body</div>
+      <h3>本体</h3>
+      <p>硬件躯体，含关节、灵巧手、传感器等物理执行系统</p>
+    </div>
+  </div>
+
+  <div class="chart-container reveal">
+    <div class="chart-title">市场规模增长预测</div>
+    <div class="bar-chart" id="marketChart">
+      <div class="bar-row">
+        <div class="bar-label">2025 全球规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="6" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">$24B</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">2026 全球规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="10" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">$42B</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">2030 全球规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="68" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">$405B</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">2025 中国规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="4" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">53亿元</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">2026 中国规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="7" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">90亿元</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">2030 中国规模</div>
+        <div class="bar-track"><div class="bar-fill" data-width="55" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">突破千亿</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>政策力度全球最强：</strong>中国以"举国体制+超级供应链"双轮驱动——具身智能首次写入《政府工作报告》，"十五五"规划列为前瞻布局未来产业，全国设立约1870亿元专项基金。美国以企业驱动为主，欧盟侧重伦理与安全框架。</p>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="tl-year">2023</div>
+      <h4>工信部发布《人形机器人创新发展指导意见》</h4>
+      <p>首次从国家层面对人形机器人产业做出战略部署</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">2025</div>
+      <h4>具身智能写入《政府工作报告》</h4>
+      <p>"十五五"规划将其列为前瞻布局未来产业，行业进入规模化量产元年</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">2026.02</div>
+      <h4>首部《人形机器人与具身智能标准体系》发布</h4>
+      <p>工信部发布2026版标准体系，为行业规范化发展奠定基础</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">2026.06</div>
+      <h4>实景实训专项行动启动</h4>
+      <p>工信部+国资委联合推进，目标百个高价值场景、万台级落地能力</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Companies -->
+<section class="section" id="companies">
+  <div class="section-header reveal">
+    <div class="section-num">Section 02</div>
+    <h2 class="section-title">头部企业图谱与竞争格局</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <h3 class="reveal" style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:var(--accent-cyan)">国内重点企业</h3>
+  <div class="data-table-wrapper reveal">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>企业</th><th>成立</th><th>总部</th><th>估值/市值</th><th>2025出货</th><th>核心产品</th><th>定位</th><th>上市状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="company-name">宇树科技</td><td>2016</td><td>杭州</td><td class="num">~420亿</td><td class="num">5500台</td><td>Go2/R1/H1/H2</td><td>四足→人形全栈</td><td><span class="tag tag-cyan">科创板过会</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">智元机器人</td><td>2023</td><td>上海</td><td class="num">数百亿</td><td class="num">5168台</td><td>远征A3/精灵G2/灵犀X2</td><td>工业场景先行</td><td><span class="tag tag-amber">股改中</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">优必选</td><td>2012</td><td>深圳</td><td class="num">545亿港元</td><td class="num">1079台</td><td>Walker S/S1/S2/U1</td><td>人形第一股</td><td><span class="tag tag-green">港股上市</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">银河通用</td><td>2023</td><td>北京</td><td class="num">百亿级</td><td class="num">小批量</td><td>Galbot G1</td><td>商用场景嵌入</td><td><span class="tag tag-amber">股改中</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">乐聚智能</td><td>2016</td><td>深圳</td><td class="num">数十亿</td><td class="num">~1000台</td><td>夸父系列</td><td>成本领先</td><td><span class="tag tag-cyan">创业板受理</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">云深处科技</td><td>2017</td><td>杭州</td><td class="num">~139亿</td><td class="num">四足为主</td><td>DR系列</td><td>四足+人形</td><td><span class="tag tag-cyan">递交招股书</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-container reveal">
+    <div class="chart-title">2025年全球人形机器人出货量份额</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label" style="font-weight:600">宇树</div>
+        <div class="bar-track"><div class="bar-fill" data-width="32.4" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">32.4%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label" style="font-weight:600">智元</div>
+        <div class="bar-track"><div class="bar-fill" data-width="23.5" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">23.5%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">乐聚</div>
+        <div class="bar-track"><div class="bar-fill" data-width="5.9" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">5.9%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">加速进化</div>
+        <div class="bar-track"><div class="bar-fill" data-width="5.9" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">5.9%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">松延动力</div>
+        <div class="bar-track"><div class="bar-fill" data-width="5.9" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">5.9%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">优必选</div>
+        <div class="bar-track"><div class="bar-fill" data-width="3.5" style="background:linear-gradient(90deg,#b388ff,#7c4dff)"></div></div>
+        <div class="bar-value">3.5%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">其他</div>
+        <div class="bar-track"><div class="bar-fill" data-width="22.9" style="background:rgba(255,255,255,0.1)"></div></div>
+        <div class="bar-value">22.9%</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:var(--accent-purple)">海外重点企业</h3>
+  <div class="data-table-wrapper reveal">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>企业</th><th>成立</th><th>总部</th><th>估值</th><th>2025出货</th><th>核心优势</th><th>阶段</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="company-name">Tesla Optimus</td><td>2021</td><td>德州</td><td class="num">内部项目</td><td class="num">150-500</td><td>FSD数据+自研芯片</td><td><span class="tag tag-amber">2026量产</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">Figure AI</td><td>2022</td><td>加州</td><td class="num">$390亿</td><td class="num">150-500</td><td>VLA模型+OpenAI</td><td><span class="tag tag-cyan">早期商用</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">Apptronik</td><td>2016</td><td>德州</td><td class="num">~$50亿</td><td class="num">小批量</td><td>谷歌+奔驰加持</td><td><span class="tag tag-amber">验证中</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">Agility Robotics</td><td>2015</td><td>俄勒冈</td><td class="num">$10-17.5亿</td><td class="num">150-500</td><td>物流+亚马逊</td><td><span class="tag tag-green">已建工厂</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">Boston Dynamics</td><td>1992</td><td>马萨诸塞</td><td class="num">~$11亿</td><td class="num">小批量</td><td>运动性能标杆</td><td><span class="tag tag-cyan">体系内商用</span></td>
+        </tr>
+        <tr>
+          <td class="company-name">1X Technologies</td><td>2014</td><td>挪威</td><td class="num">数十亿美元</td><td class="num">小批量</td><td>OpenAI投资+家庭</td><td><span class="tag tag-cyan">早期商用</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>护城河判断：</strong>短期看量产能力+供应链控制（中国企业领先），中期看数据闭环+AI模型能力（美国企业占优），长期取决于谁先跑通"卖智能"而非"卖硬件"。</p>
+  </div>
+</section>
+
+<!-- Section 3: Supply Chain -->
+<section class="section" id="supply-chain">
+  <div class="section-header reveal">
+    <div class="section-num">Section 03</div>
+    <h2 class="section-title">生态上下游结构</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="pipeline reveal">
+    <div class="pipeline-step">
+      <div class="step-num">UPSTREAM</div>
+      <h4>上游核心零部件</h4>
+      <div class="margin-badge" style="background:rgba(0,229,255,0.12);color:#00e5ff">利润率 40-60%</div>
+      <ul>
+        <li>精密减速器（BOM 15-20%）</li>
+        <li>伺服电机/无框力矩电机</li>
+        <li>行星滚柱丝杠</li>
+        <li>灵巧手（最贵单一组件）</li>
+        <li>传感器（力/视觉/触觉）</li>
+        <li>芯片/计算平台</li>
+      </ul>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">MIDSTREAM</div>
+      <h4>中游本体制造</h4>
+      <div class="margin-badge" style="background:rgba(255,171,0,0.12);color:#ffab00">利润率 10-15%</div>
+      <ul>
+        <li>人形整机：宇树/智元/优必选</li>
+        <li>四足/轮式：宇树/云深处</li>
+        <li>组装为主，规模效应是关键</li>
+        <li>当前普遍亏损</li>
+      </ul>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">DOWNSTREAM</div>
+      <h4>下游软件与AI层</h4>
+      <div class="margin-badge" style="background:rgba(105,240,174,0.12);color:#69f0ae">利润率 极高（若跑通）</div>
+      <ul>
+        <li>具身大模型</li>
+        <li>运动控制/VLA模型</li>
+        <li>操作系统/开发平台</li>
+      </ul>
+    </div>
+    <div class="pipeline-step">
+      <div class="step-num">TERMINAL</div>
+      <h4>终端应用场景</h4>
+      <div class="margin-badge" style="background:rgba(179,136,255,0.12);color:#b388ff">快速扩容中</div>
+      <ul>
+        <li>B端：工业/仓储/巡检/商超</li>
+        <li>C端：家庭/教育（早期）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="chart-container reveal">
+    <div class="chart-title">整机BOM成本结构（以35万元均价为例）</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label">结构件</div>
+        <div class="bar-track"><div class="bar-fill" data-width="90" style="background:rgba(255,255,255,0.12)"></div></div>
+        <div class="bar-value">20-25%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">减速器</div>
+        <div class="bar-track"><div class="bar-fill" data-width="70" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">15-20%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">电机</div>
+        <div class="bar-track"><div class="bar-fill" data-width="70" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">15-20%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">丝杠</div>
+        <div class="bar-track"><div class="bar-fill" data-width="70" style="background:linear-gradient(90deg,#00e5ff,#0091ea)"></div></div>
+        <div class="bar-value">15-20%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">灵巧手</div>
+        <div class="bar-track"><div class="bar-fill" data-width="72" style="background:linear-gradient(90deg,#b388ff,#7c4dff)"></div></div>
+        <div class="bar-value">17-20%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">传感器</div>
+        <div class="bar-track"><div class="bar-fill" data-width="50" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">10-15%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">控制器</div>
+        <div class="bar-track"><div class="bar-fill" data-width="50" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value">10-15%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>成本下降曲线惊人：</strong>关节电机从2018年5-6万元/个降至2025年500-600元/个（降100倍），整机价格已下探至3-4万元，万元级消费版出现。但灵巧手存在"不可能三角"——性能-成本-可靠性不可兼得。</p>
+  </div>
+</section>
+
+<!-- Section 4: Demand -->
+<section class="section" id="demand">
+  <div class="section-header reveal">
+    <div class="section-num">Section 04</div>
+    <h2 class="section-title">用户需求洞察</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="risk-grid reveal">
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(0,229,255,0.1)">🏭</div>
+      <div>
+        <h4>工业制造（最先落地）</h4>
+        <p>智元精灵G2全球首个工业产线规模化落地，获数亿元订单。但效率仅为人力的30-50%，需2-3台替代1人</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(105,240,174,0.1)">📦</div>
+      <div>
+        <h4>仓储物流</h4>
+        <p>Agility与亚马逊合作测试；星动纪元拿下物流场景5000万订单</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(179,136,255,0.1)">🏪</div>
+      <div>
+        <h4>商超零售</h4>
+        <p>银河通用Galbot G1已进入全家便利店常态化在岗</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(255,171,0,0.1)">🏠</div>
+      <div>
+        <h4>家庭陪伴（概念验证期）</h4>
+        <p>优必选U1系列预售10天获3800台预订，但"花3-4万买个能做什么的机器人"仍是核心障碍</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-size:1.1rem;font-weight:700;margin:1.5rem 0 1rem">需求-供给错配分析</h3>
+  <div class="gap-grid reveal">
+    <div class="gap-item">
+      <div class="gap-dim">运动能力</div>
+      <div class="gap-bar-container">
+        <div class="gap-bar">
+          <div class="gap-bar-expect" style="width:90%"></div>
+          <div class="gap-bar-reality" style="width:25%"></div>
+        </div>
+      </div>
+      <div class="gap-level gap-large">Gap大</div>
+    </div>
+    <div class="gap-item">
+      <div class="gap-dim">智能水平</div>
+      <div class="gap-bar-container">
+        <div class="gap-bar">
+          <div class="gap-bar-expect" style="width:95%"></div>
+          <div class="gap-bar-reality" style="width:30%"></div>
+        </div>
+      </div>
+      <div class="gap-level gap-large">Gap大</div>
+    </div>
+    <div class="gap-item">
+      <div class="gap-dim">操作效率</div>
+      <div class="gap-bar-container">
+        <div class="gap-bar">
+          <div class="gap-bar-expect" style="width:100%"></div>
+          <div class="gap-bar-reality" style="width:35%"></div>
+        </div>
+      </div>
+      <div class="gap-level gap-large">Gap大</div>
+    </div>
+    <div class="gap-item">
+      <div class="gap-dim">使用成本</div>
+      <div class="gap-bar-container">
+        <div class="gap-bar">
+          <div class="gap-bar-expect" style="width:60%"></div>
+          <div class="gap-bar-reality" style="width:40%"></div>
+        </div>
+      </div>
+      <div class="gap-level gap-medium">Gap中</div>
+    </div>
+    <div class="gap-item">
+      <div class="gap-dim">可靠性</div>
+      <div class="gap-bar-container">
+        <div class="gap-bar">
+          <div class="gap-bar-expect" style="width:100%"></div>
+          <div class="gap-bar-reality" style="width:20%"></div>
+        </div>
+      </div>
+      <div class="gap-level gap-large">Gap大</div>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>关键洞察：</strong>当前B端订单约59%来自国资背景的数据采集中心，并非真实生产替代需求。企业自主采购的商业化闭环尚未完全跑通。C端消费者对机器人的期望值远高于当前产品能力。</p>
+  </div>
+</section>
+
+<!-- Section 5: Profit -->
+<section class="section" id="profit">
+  <div class="section-header reveal">
+    <div class="section-num">Section 05</div>
+    <h2 class="section-title">利润率与商业模式</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="chart-container reveal">
+    <div class="chart-title">产业链利润率分化（微笑曲线）</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label">上游零部件</div>
+        <div class="bar-track"><div class="bar-fill" data-width="85" style="background:linear-gradient(90deg,#69f0ae,#00c853)"></div></div>
+        <div class="bar-value" style="color:#69f0ae">净利 20-25%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">中游整机</div>
+        <div class="bar-track"><div class="bar-fill" data-width="12" style="background:linear-gradient(90deg,#ff5252,#d32f2f)"></div></div>
+        <div class="bar-value" style="color:#ff5252">大幅亏损</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">下游集成</div>
+        <div class="bar-track"><div class="bar-fill" data-width="50" style="background:linear-gradient(90deg,#ffab00,#ff8f00)"></div></div>
+        <div class="bar-value" style="color:#ffab00">波动大</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">软件/AI</div>
+        <div class="bar-track"><div class="bar-fill" data-width="15" style="background:linear-gradient(90deg,#b388ff,#7c4dff)"></div></div>
+        <div class="bar-value" style="color:#b388ff">未知（早期）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="model-grid reveal">
+    <div class="model-card">
+      <div class="model-num">01</div>
+      <h4>整机销售</h4>
+      <div class="model-tag">当前主流</div>
+      <p>成交链路短、回款直接，但容易陷入价格战，硬件利润薄。代表：宇树R1系列1-4万元</p>
+    </div>
+    <div class="model-card">
+      <div class="model-num">02</div>
+      <h4>项目制解决方案</h4>
+      <div class="model-tag">B端核心</div>
+      <p>机器人+场景适配+系统集成打包，客单价高（数百万至数千万），但定制化成本高</p>
+    </div>
+    <div class="model-card">
+      <div class="model-num">03</div>
+      <h4>RaaS 机器人即服务</h4>
+      <div class="model-tag">增长最快</div>
+      <p>按使用时长/任务量付费，降低客户门槛。2026年RaaS收入占比升至20-30%</p>
+    </div>
+    <div class="model-card">
+      <div class="model-num">04</div>
+      <h4>运营与数据服务</h4>
+      <div class="model-tag">终极形态</div>
+      <p>机器人作为服务入口，按感知/决策/执行Token计费。极早期，但可能重构商业模式</p>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>盈利时间表：</strong>几乎所有整机厂商都在亏损（优必选6年亏56亿是缩影）。预计整机企业集体盈利最早在2028-2030年。盈利条件：万台级产量摊薄成本 + 场景真实复购 + 软件服务收入占比提升。</p>
+  </div>
+</section>
+
+<!-- Section 6: Risks -->
+<section class="section" id="risks">
+  <div class="section-header reveal">
+    <div class="section-num">Section 06</div>
+    <h2 class="section-title">挑战、争议与批判性视角</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="risk-grid reveal">
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(255,82,82,0.1)">🧠</div>
+      <div>
+        <h4>通用操作能力不足</h4>
+        <p>VLA模型准确率约70%，缺乏万亿级真实世界训练数据，泛化能力严重不足</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(255,171,0,0.1)">🔋</div>
+      <div>
+        <h4>续航瓶颈</h4>
+        <p>当前1-8小时，远低于工业场景7×24小时需求</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(179,136,255,0.1)">🤚</div>
+      <div>
+        <h4>灵巧操作不可能三角</h4>
+        <p>性能-成本-可靠性不可兼得，规模化未必能摊薄成本</p>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon" style="background:rgba(0,229,255,0.1)">⚠️</div>
+      <div>
+        <h4>可靠性不足</h4>
+        <p>双足跌倒率高，非结构化环境适应弱</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-size:1.1rem;font-weight:700;margin:1.5rem 0 1rem">泡沫信号</h3>
+  <div class="bubble-indicators reveal">
+    <div class="bubble-item">
+      <div class="value" style="color:var(--accent-red)">600亿+</div>
+      <div class="desc">2026上半年融资总额</div>
+    </div>
+    <div class="bubble-item">
+      <div class="value" style="color:var(--accent-amber)">15×</div>
+      <div class="desc">Figure AI估值涨幅</div>
+    </div>
+    <div class="bubble-item">
+      <div class="value" style="color:var(--accent-cyan)">27家</div>
+      <div class="desc">卷走所有10亿+大额融资</div>
+    </div>
+    <div class="bubble-item">
+      <div class="value" style="color:var(--accent-purple)">2-3年</div>
+      <div class="desc">融资领先商业验证的落差</div>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>客观判断：</strong>行业存在结构性泡沫——融资热度领先商业验证2-3年，但并非全行业泡沫。头部企业有真实交付，腰部以下泡沫风险大。发改委已明确警示"泡沫"风险，提出建立准入退出机制。</p>
+  </div>
+</section>
+
+<!-- Section 7: Career -->
+<section class="section" id="career">
+  <div class="section-header reveal">
+    <div class="section-num">Section 07</div>
+    <h2 class="section-title">市场公关岗位的职业价值判断</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="data-table-wrapper reveal">
+    <table class="data-table">
+      <thead>
+        <tr><th>维度</th><th>传统科技PR</th><th>具身智能PR</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="company-name">技术门槛</td><td>中等（产品功能可体验）</td><td style="color:#ff5252;font-weight:600">极高（需理解"大脑-小脑-本体"架构）</td>
+        </tr>
+        <tr>
+          <td class="company-name">公众认知</td><td>已有基本认知</td><td style="color:#ffab00;font-weight:600">模糊且两极化（憧憬 vs 恐惧）</td>
+        </tr>
+        <tr>
+          <td class="company-name">传播逻辑</td><td>B端或C端单线</td><td style="color:#00e5ff;font-weight:600">B端与C端逻辑完全不同</td>
+        </tr>
+        <tr>
+          <td class="company-name">伦理风险</td><td>较低</td><td style="color:#ff5252;font-weight:600">极高（就业替代/安全/恐怖谷/隐私）</td>
+        </tr>
+        <tr>
+          <td class="company-name">危机公关</td><td>常规负面</td><td style="color:#ffab00;font-weight:600">机器人跌倒/失控等物理事故极具传播力</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="reveal" style="font-size:1.1rem;font-weight:700;margin:1.5rem 0 1rem">去哪类公司？风险-收益分析</h3>
+  <div class="rec-tiers reveal">
+    <div class="rec-tier tier-1">
+      <div class="tier-label">首选</div>
+      <div class="tier-info">
+        <h4>拟上市独角兽：宇树、智元、乐聚</h4>
+        <p>增长最快、话题性强、PR话语权大、IPO故事线完整</p>
+      </div>
+      <div class="tier-stars">★★★★★</div>
+    </div>
+    <div class="rec-tier tier-2">
+      <div class="tier-label">次选</div>
+      <div class="tier-info">
+        <h4>已上市公司：优必选（港股）</h4>
+        <p>品牌知名度最高、资金充裕、职业路径清晰</p>
+      </div>
+      <div class="tier-stars">★★★★</div>
+    </div>
+    <div class="rec-tier tier-3">
+      <div class="tier-label">谨慎</div>
+      <div class="tier-info">
+        <h4>融资期独角兽：银河通用、星动纪元</h4>
+        <p>PR即融资能力、灵活度高，但资金链风险、团队不稳定</p>
+      </div>
+      <div class="tier-stars">★★★</div>
+    </div>
+    <div class="rec-tier tier-4">
+      <div class="tier-label">不推荐</div>
+      <div class="tier-info">
+        <h4>早期创业公司 / 纯零部件企业</h4>
+        <p>前者存活率低，后者PR价值有限</p>
+      </div>
+      <div class="tier-stars">★★</div>
+    </div>
+  </div>
+
+  <div class="verdict reveal">
+    <div class="verdict-answer">
+      <span class="yes">是，进入这个行业</span><span class="but">，但需选对公司</span>
+    </div>
+    <p class="verdict-sub">具身智能是AI领域增速最快的细分赛道，PR的杠杆效应远大于成熟行业。政策确定性高，但行业存在结构性泡沫，需选对"能活过3年"的公司。</p>
+  </div>
+
+  <div class="checklist reveal">
+    <h4>选公司的三个核心指标</h4>
+    <div class="checklist-item">
+      <div class="check">01</div>
+      <div><strong>出货量</strong>（不是订单量）——真实交付能力是硬指标</div>
+    </div>
+    <div class="checklist-item">
+      <div class="check">02</div>
+      <div><strong>自研比例</strong>（不是组装能力）——决定技术护城河和品牌叙事深度</div>
+    </div>
+    <div class="checklist-item">
+      <div class="check">03</div>
+      <div><strong>现金储备</strong>（不是融资额）——决定能否撑过2-3年商业化爬坡期</div>
+    </div>
+  </div>
+
+  <div class="insight-box reveal">
+    <p><strong>关键提醒：</strong>技术学习是必修课——不理解"大脑-小脑-本体"架构无法做好这个行业的PR。"讲好技术故事"在当前阶段最有价值，但2年后需要转向"讲好商业故事"。行业波动大，需有心理准备面对估值腰斩、裁员、战略转向等场景。</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>具身智能行业市场分析报告 · 2026年6月</p>
+  <p>数据来源：Grand View Research · Omdia · IDC · 摩根士丹利 · 启信宝 · 中投顾问 · 国泰海通 · 西部证券 · 集邦咨询 · 优必选财报 · 宇树招股书</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Bar chart animation
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fills = entry.target.querySelectorAll('.bar-fill');
+      fills.forEach((fill, i) => {
+        setTimeout(() => {
+          fill.style.width = fill.dataset.width + '%';
+        }, i * 80);
+      });
+      barObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.chart-container, .bar-chart').forEach(el => {
+  if (el.querySelector('.bar-fill')) barObserver.observe(el);
+});
+
+// Nav hide on scroll down
+let lastScroll = 0;
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+  if (currentScroll > lastScroll && currentScroll > 100) {
+    nav.style.transform = 'translateY(-100%)';
+  } else {
+    nav.style.transform = 'translateY(0)';
+  }
+  lastScroll = currentScroll;
+});
+</script>
+
+</body>
+</html>
