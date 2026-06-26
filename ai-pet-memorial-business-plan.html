@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI宠物纪念相框 · 商业计划书</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B1215;
+    --bg2: #111B20;
+    --bg3: #162025;
+    --card: #152028;
+    --card-hover: #1A2830;
+    --border: #243540;
+    --border-light: #2A4050;
+    --text: #E8E0D8;
+    --text-dim: #8A9AAA;
+    --text-muted: #5C6E7E;
+    --accent: #C8956C;
+    --accent2: #E0A878;
+    --accent-dim: rgba(200,149,108,0.15);
+    --accent-glow: rgba(200,149,108,0.25);
+    --green: #5AAF7A;
+    --green-dim: rgba(90,175,122,0.12);
+    --red: #D46A6A;
+    --red-dim: rgba(212,106,106,0.12);
+    --yellow: #C8B46C;
+    --yellow-dim: rgba(200,180,108,0.12);
+    --blue: #6A9AD4;
+    --blue-dim: rgba(106,154,212,0.12);
+    --purple: #9A7AD4;
+    --purple-dim: rgba(154,122,212,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--border) var(--bg); }
+  body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,18,21,0.88); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border); padding: 0 2rem;
+  }
+  nav .inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  nav .logo { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 1rem; color: var(--accent); letter-spacing: 0.05em; }
+  nav .links { display: flex; gap: 0.15rem; flex-wrap: wrap; }
+  nav .links a { color: var(--text-dim); text-decoration: none; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+  nav .links a:hover { color: var(--text); background: var(--accent-dim); }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 30% 40%, rgba(200,149,108,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 60% at 70% 60%, rgba(90,175,122,0.04) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent-dim); border: 1px solid rgba(200,149,108,0.2);
+    color: var(--accent2); font-size: 0.78rem; font-weight: 500;
+    padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif; font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900; line-height: 1.2; letter-spacing: -0.02em;
+    margin-bottom: 1.2rem; animation: fadeInUp 0.8s ease 0.15s both;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent2); text-shadow: 0 0 40px rgba(200,149,108,0.3); }
+  .hero .subtitle { font-size: 1.05rem; color: var(--text-dim); max-width: 660px; margin-bottom: 2.5rem; animation: fadeInUp 0.8s ease 0.3s both; }
+  .hero-metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem; max-width: 900px; width: 100%; animation: fadeInUp 0.8s ease 0.45s both;
+  }
+  .hm { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; transition: all 0.3s; }
+  .hm:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,149,108,0.08); }
+  .hm .val { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 900; color: var(--accent2); }
+  .hm .val.green { color: var(--green); }
+  .hm .val.blue { color: var(--blue); }
+  .hm .unit { font-size: 0.8rem; font-weight: 400; }
+  .hm .label { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+  section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .section-label .num {
+    background: var(--accent); color: var(--bg); width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 6px; font-size: 0.7rem;
+  }
+  .section-title {
+    font-family: 'Noto Serif SC', serif; font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700; line-height: 1.3; margin-bottom: 0.75rem;
+  }
+  .section-desc { color: var(--text-dim); font-size: 0.92rem; max-width: 680px; margin-bottom: 2.5rem; }
+
+  .card-grid { display: grid; gap: 1rem; }
+  .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .card:hover { border-color: var(--border-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .card p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.65; }
+  .card .metric { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 900; color: var(--accent2); margin-bottom: 0.25rem; }
+  .card .metric.green { color: var(--green); }
+  .card .metric.blue { color: var(--blue); }
+  .card .metric-label { font-size: 0.72rem; color: var(--text-muted); }
+
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; margin-bottom: 0.75rem;
+  }
+  .card-icon.amber { background: var(--accent-dim); color: var(--accent2); }
+  .card-icon.green { background: var(--green-dim); color: var(--green); }
+  .card-icon.red { background: var(--red-dim); color: var(--red); }
+  .card-icon.blue { background: var(--blue-dim); color: var(--blue); }
+  .card-icon.yellow { background: var(--yellow-dim); color: var(--yellow); }
+  .card-icon.purple { background: var(--purple-dim); color: var(--purple); }
+
+  .data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.8rem; }
+  .data-table thead th {
+    background: var(--bg2); color: var(--text-dim); font-weight: 600;
+    padding: 0.65rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .data-table thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+  .data-table thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+  .data-table tbody td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+  .data-table tbody tr:hover td { background: var(--bg2); color: var(--text); }
+  .data-table .hl { color: var(--accent2); font-weight: 600; }
+  .data-table .hl-green { color: var(--green); font-weight: 600; }
+  .data-table .hl-red { color: var(--red); font-weight: 600; }
+  .data-table .hl-blue { color: var(--blue); font-weight: 600; }
+  .data-table .hl-purple { color: var(--purple); font-weight: 600; }
+
+  .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; }
+  .tag.green { background: var(--green-dim); color: var(--green); }
+  .tag.red { background: var(--red-dim); color: var(--red); }
+  .tag.yellow { background: var(--yellow-dim); color: var(--yellow); }
+  .tag.blue { background: var(--blue-dim); color: var(--blue); }
+  .tag.amber { background: var(--accent-dim); color: var(--accent2); }
+  .tag.purple { background: var(--purple-dim); color: var(--purple); }
+
+  .callout {
+    background: var(--accent-dim); border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 1.25rem 1.5rem; margin: 2rem 0;
+  }
+  .callout.green { background: var(--green-dim); border-color: var(--green); }
+  .callout.red { background: var(--red-dim); border-color: var(--red); }
+  .callout.blue { background: var(--blue-dim); border-color: var(--blue); }
+  .callout.purple { background: var(--purple-dim); border-color: var(--purple); }
+  .callout p { font-size: 0.88rem; color: var(--text); line-height: 1.7; }
+  .callout strong { color: var(--accent2); }
+  .callout.green strong { color: var(--green); }
+  .callout.blue strong { color: var(--blue); }
+  .callout.purple strong { color: var(--purple); }
+
+  .pie-row { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .pie-legend { display: flex; flex-direction: column; gap: 0.55rem; min-width: 200px; }
+  .lg-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+  .lg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .lg-text { color: var(--text-dim); flex: 1; }
+  .lg-val { color: var(--text); font-weight: 700; }
+
+  .waterfall { display: flex; align-items: flex-end; gap: 0; margin: 1.5rem 0; }
+  .wf-col { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px; }
+  .wf-bar { width: 100%; max-width: 64px; border-radius: 6px 6px 0 0; transition: height 1.2s cubic-bezier(0.22, 1, 0.36, 1); position: relative; }
+  .wf-bar .wf-val { position: absolute; top: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+  .wf-label { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center; }
+
+  .milestone-track { position: relative; padding-left: 2.5rem; }
+  .milestone-track::before {
+    content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--green), var(--blue), var(--purple));
+  }
+  .ms-item { position: relative; padding-bottom: 2.5rem; }
+  .ms-item:last-child { padding-bottom: 0; }
+  .ms-dot {
+    position: absolute; left: -2.5rem; top: 0.3rem;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 3px solid var(--accent); background: var(--bg);
+  }
+  .ms-item:nth-child(2) .ms-dot { border-color: var(--green); }
+  .ms-item:nth-child(3) .ms-dot { border-color: var(--blue); }
+  .ms-item:nth-child(4) .ms-dot { border-color: var(--purple); }
+  .ms-phase { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.2rem; }
+  .ms-item:nth-child(2) .ms-phase { color: var(--green); }
+  .ms-item:nth-child(3) .ms-phase { color: var(--blue); }
+  .ms-item:nth-child(4) .ms-phase { color: var(--purple); }
+  .ms-item h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .ms-item p { font-size: 0.8rem; color: var(--text-dim); max-width: 560px; }
+  .ms-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .ms-tags span { background: var(--bg2); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.68rem; color: var(--text-dim); }
+
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; }
+  .risk-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+  .risk-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+  .risk-dot.high { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  .risk-dot.mid { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+  .risk-dot.low { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .risk-item h4 { font-size: 0.84rem; margin-bottom: 0.2rem; }
+  .risk-item p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
+  .risk-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.15rem; }
+  .risk-tag.high { color: var(--red); }
+  .risk-tag.mid { color: var(--yellow); }
+  .risk-tag.low { color: var(--green); }
+
+  .divider { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 1rem 0; }
+
+  .verdict {
+    background: linear-gradient(135deg, rgba(200,149,108,0.08) 0%, rgba(90,175,122,0.06) 100%);
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 3rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .verdict::before {
+    content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(200,149,108,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .verdict h2 { font-family: 'Noto Serif SC', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; margin-bottom: 1rem; }
+
+  .formula-box {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.25rem 1.5rem; margin: 1rem 0;
+  }
+  .formula-box .f-title { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 600; }
+  .formula-box .f-expr { font-size: 1.05rem; font-weight: 700; color: var(--accent2); font-family: 'Noto Serif SC', serif; margin-bottom: 0.3rem; }
+  .formula-box .f-desc { font-size: 0.78rem; color: var(--text-dim); }
+
+  footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border); }
+
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav .links { display: none; }
+    section { padding: 3rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="logo">AI宠物纪念相框 · 商业计划书</div>
+    <div class="links">
+      <a href="#overview">概览</a>
+      <a href="#equity">股权</a>
+      <a href="#funding">融资</a>
+      <a href="#return">回报</a>
+      <a href="#dividend">分红</a>
+      <a href="#risk">风险</a>
+      <a href="#exit">退出</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge"><span class="dot"></span>商业计划书 · 2026年6月</div>
+  <h1>AI宠物纪念相框<br><em>商业计划与融资方案</em></h1>
+  <p class="subtitle">团队股权如何划分？融资多少、怎么跟投资人谈？回报怎么算、风险怎么控？一份可落地的创业执行框架。</p>
+  <div class="hero-metrics">
+    <div class="hm"><div class="val">50<span class="unit">万</span></div><div class="label">天使轮融资金额</div></div>
+    <div class="hm"><div class="val green">15<span class="unit">%股权</span></div><div class="label">天使轮出让比例</div></div>
+    <div class="hm"><div class="val blue">333<span class="unit">万</span></div><div class="label">投后估值</div></div>
+    <div class="hm"><div class="val">10-15<span class="unit">倍</span></div><div class="label">预期退出回报倍数</div></div>
+    <div class="hm"><div class="val green">5<span class="unit">年</span></div><div class="label">预期退出周期</div></div>
+  </div>
+</div>
+
+<!-- 1. 项目概览 -->
+<section id="overview">
+  <div class="reveal">
+    <div class="section-label"><span class="num">1</span> 项目概览</div>
+    <h2 class="section-title">做什么、赚多少、怎么赢</h2>
+  </div>
+
+  <div class="card-grid cols-3 reveal" style="margin-bottom:2rem;">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <div class="card-icon amber">🎯</div>
+      <h3>产品定义</h3>
+      <p>AI动态视频生成小程序 + 20x10cm木框电子相框。用户上传宠物照片，AI生成高拟真动态视频，在电子相框中循环播放。</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-icon green">💰</div>
+      <h3>商业模式</h3>
+      <p>硬件一次性买断（B端出货200-350元）+ 视频按次调用分成（C端9.9-29.9元/次）。三层收入模型：硬件→视频→增值。</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-icon blue">🏪</div>
+      <h3>目标市场</h3>
+      <p>ToB面向宠物殡葬店（全国9000+家），他们售卖给刚失去宠物的主人。殡葬市场年50亿+，纪念品是增速最快品类。</p>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <h3 style="margin-bottom:1rem;">关键财务指标速览</h3>
+    <table class="data-table">
+      <thead><tr><th>指标</th><th>数值</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>单套综合成本</td><td class="hl">170-250元</td><td>硬件150-220 + 视频1-2 + 包装物流15-25</td></tr>
+        <tr><td>B端出货价</td><td class="hl">280-350元</td><td>买断制，B端零售价498-698元</td></tr>
+        <tr><td>单台毛利</td><td class="hl-green">110-140元</td><td>毛利率37%-47%</td></tr>
+        <tr><td>盈亏平衡点</td><td class="hl-blue">214台/月</td><td>约50家门店，每家月均4-5台</td></tr>
+        <tr><td>规模化净利率</td><td class="hl-green">25%+</td><td>月销500台以上</td></tr>
+        <tr><td>第3年预期年营收</td><td class="hl">500万+</td><td>覆盖500家门店</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 2. 团队与股权 -->
+<section id="equity">
+  <div class="reveal">
+    <div class="section-label"><span class="num">2</span> 团队与股权</div>
+    <h2 class="section-title">角色、贡献与股权划分</h2>
+    <p class="section-desc">股权划分的核心原则：出资出力定底座，动态调整留弹性，期权池锁未来。创始人必须保持控制权（>51%）。</p>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:2rem;">
+    <h3 style="margin-bottom:1.2rem;">建议团队配置与初始股权（4人创始团队）</h3>
+    <table class="data-table">
+      <thead><tr><th>角色</th><th>核心职责</th><th>出资建议</th><th>初始股权</th><th>兑现条件</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b style="color:var(--accent2);">CEO / 创始人</b></td>
+          <td>战略方向、融资、B端渠道开拓</td>
+          <td class="hl">5-8万</td>
+          <td class="hl">40%</td>
+          <td>4年兑现，1年cliff</td>
+        </tr>
+        <tr>
+          <td><b style="color:var(--green);">CTO / 技术合伙人</b></td>
+          <td>小程序开发、AI模型对接与训练</td>
+          <td class="hl">3-5万</td>
+          <td class="hl-green">20%</td>
+          <td>4年兑现，1年cliff</td>
+        </tr>
+        <tr>
+          <td><b style="color:var(--blue);">COO / 运营合伙人</b></td>
+          <td>B端地推、门店维护、供应链管理</td>
+          <td class="hl">3-5万</td>
+          <td class="hl-blue">15%</td>
+          <td>4年兑现，1年cliff</td>
+        </tr>
+        <tr>
+          <td><b style="color:var(--purple);">产品设计师</b></td>
+          <td>硬件外观设计、小程序UI/UX</td>
+          <td class="hl">2-3万</td>
+          <td class="hl-purple">10%</td>
+          <td>4年兑现，1年cliff</td>
+        </tr>
+        <tr style="border-top:2px solid var(--border);">
+          <td colspan="3"><b>期权池（ESOP）</b></td>
+          <td class="hl">15%</td>
+          <td>预留给早期员工和后续招聘</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid cols-2 reveal" style="margin-bottom:2rem;">
+    <div class="card">
+      <div class="card-icon amber">⚖️</div>
+      <h3>股权设计三大原则</h3>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem;">
+        <div><b style="font-size:0.85rem;color:var(--accent2);">1. 创始人绝对控制</b><br><span style="font-size:0.78rem;color:var(--text-dim);">CEO持股40%，加一致行动人可达55%+，确保重大决策效率。避免"50:50"或"33:33:33"的死亡股权结构。</span></div>
+        <div><b style="font-size:0.85rem;color:var(--accent2);">2. 股权兑现机制（Vesting）</b><br><span style="font-size:0.78rem;color:var(--text-dim);">4年兑现、1年cliff——满1年兑现25%，之后每月1/48。任何人中途退出，未兑现部分自动收回期权池。避免"拿股不干活"。</span></div>
+        <div><b style="font-size:0.85rem;color:var(--accent2);">3. 期权池预留15%</b><br><span style="font-size:0.78rem;color:var(--text-dim);">为后续招聘AI工程师、渠道经理等核心岗位留足空间。期权池不参与初始分红，但享受股权增值。</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon green">📊</div>
+      <h3>股权结构可视化</h3>
+      <div class="pie-row" style="margin-top:0.75rem;">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--bg2)" stroke-width="28"/>
+          <!-- CEO 40% = 163.4/408.4 -->
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--accent)" stroke-width="28"
+            stroke-dasharray="163.4 245" stroke-dashoffset="0" transform="rotate(-90 90 90)"/>
+          <!-- CTO 20% -->
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--green)" stroke-width="28"
+            stroke-dasharray="81.7 326.7" stroke-dashoffset="-163.4" transform="rotate(-90 90 90)"/>
+          <!-- COO 15% -->
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--blue)" stroke-width="28"
+            stroke-dasharray="61.3 347.1" stroke-dashoffset="-245.1" transform="rotate(-90 90 90)"/>
+          <!-- 设计 10% -->
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--purple)" stroke-width="28"
+            stroke-dasharray="40.8 367.6" stroke-dashoffset="-306.4" transform="rotate(-90 90 90)"/>
+          <!-- ESOP 15% -->
+          <circle cx="90" cy="90" r="65" fill="none" stroke="var(--text-muted)" stroke-width="28"
+            stroke-dasharray="61.3 347.1" stroke-dashoffset="-347.2" transform="rotate(-90 90 90)"/>
+        </svg>
+        <div class="pie-legend">
+          <div class="lg-row"><div class="lg-dot" style="background:var(--accent);"></div><span class="lg-text">CEO / 创始人</span><span class="lg-val">40%</span></div>
+          <div class="lg-row"><div class="lg-dot" style="background:var(--green);"></div><span class="lg-text">CTO / 技术合伙人</span><span class="lg-val">20%</span></div>
+          <div class="lg-row"><div class="lg-dot" style="background:var(--blue);"></div><span class="lg-text">COO / 运营合伙人</span><span class="lg-val">15%</span></div>
+          <div class="lg-row"><div class="lg-dot" style="background:var(--purple);"></div><span class="lg-text">产品设计师</span><span class="lg-val">10%</span></div>
+          <div class="lg-row"><div class="lg-dot" style="background:var(--text-muted);"></div><span class="lg-text">期权池 ESOP</span><span class="lg-val">15%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout reveal">
+    <p><strong>关键提醒：</strong>股权不是"分蛋糕"，而是"绑定战斗力的锁链"。建议签署《股东协议》明确：1）退出机制（离职/辞退的股权回购价格和方式）；2）竞业禁止条款；3）知识产权归属（AI模型和代码归公司所有）；4）一致行动人条款（COO和产品设计师的投票权与CEO绑定，确保控制权稳定）。</p>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 3. 融资计划 -->
+<section id="funding">
+  <div class="reveal">
+    <div class="section-label"><span class="num">3</span> 融资计划</div>
+    <h2 class="section-title">融多少、找谁融、怎么花</h2>
+    <p class="section-desc">分两轮融资：天使轮验证PMF，Pre-A轮规模化扩张。资金用途以渠道拓展和硬件采购为主，技术投入为辅。</p>
+  </div>
+
+  <div class="card-grid cols-2 reveal" style="margin-bottom:2rem;">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h3 style="color:var(--accent2);margin-bottom:0.75rem;">天使轮（0-12个月）</h3>
+      <table class="data-table">
+        <tbody>
+          <tr><td style="width:40%;">融资金额</td><td class="hl">50万元</td></tr>
+          <tr><td>出让股权</td><td class="hl">15%</td></tr>
+          <tr><td>投前估值</td><td>283万元</td></tr>
+          <tr><td>投后估值</td><td class="hl">333万元</td></tr>
+          <tr><td>资金用途</td><td>详见下方</td></tr>
+          <tr><td>目标投资人</td><td>宠物行业天使投资人、FA推荐</td></tr>
+          <tr><td>里程碑承诺</td><td>12个月内覆盖50家门店，月销200台</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <h3 style="color:var(--green);margin-bottom:0.75rem;">Pre-A轮（13-24个月）</h3>
+      <table class="data-table">
+        <tbody>
+          <tr><td style="width:40%;">融资金额</td><td class="hl-green">200-300万元</td></tr>
+          <tr><td>出让股权</td><td class="hl-green">15%-20%</td></tr>
+          <tr><td>投前估值</td><td>1000-1500万元</td></tr>
+          <tr><td>投后估值</td><td class="hl-green">1200-1875万元</td></tr>
+          <tr><td>资金用途</td><td>详见下方</td></tr>
+          <tr><td>目标投资人</td><td>早期VC（宠物/消费赛道）</td></tr>
+          <tr><td>里程碑承诺</td><td>24个月内覆盖300家门店，月营收30万+</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-grid cols-2 reveal" style="margin-bottom:2rem;">
+    <div class="card">
+      <h3 style="margin-bottom:1rem;">天使轮50万 · 资金用途</h3>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">硬件采购（50台样机+200台量产）</span><span style="font-size:0.82rem;font-weight:700;color:var(--accent2);">15万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:30%;background:var(--accent);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">小程序开发+AI API</span><span style="font-size:0.82rem;font-weight:700;color:var(--accent2);">12万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:24%;background:var(--accent);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">B端地推（差旅/物料/分成预付）</span><span style="font-size:0.82rem;font-weight:700;color:var(--accent2);">10万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:20%;background:var(--green);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">团队薪资（6个月基本工资）</span><span style="font-size:0.82rem;font-weight:700;color:var(--accent2);">8万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:16%;background:var(--blue);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">运营备用金</span><span style="font-size:0.82rem;font-weight:700;color:var(--accent2);">5万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:10%;background:var(--yellow);border-radius:4px;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:1rem;">Pre-A轮250万 · 资金用途</h3>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">硬件批量采购（2000台+）</span><span style="font-size:0.82rem;font-weight:700;color:var(--green);">80万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:32%;background:var(--green);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">自训练AI模型（GPU+标注）</span><span style="font-size:0.82rem;font-weight:700;color:var(--green);">50万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:20%;background:var(--blue);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">渠道扩张（区域代理+地推团队）</span><span style="font-size:0.82rem;font-weight:700;color:var(--green);">60万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:24%;background:var(--green);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">团队扩张（招聘5-8人）</span><span style="font-size:0.82rem;font-weight:700;color:var(--green);">40万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:16%;background:var(--blue);border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem;"><span style="font-size:0.82rem;">品牌传播+运营备用金</span><span style="font-size:0.82rem;font-weight:700;color:var(--green);">20万</span></div>
+          <div style="height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:8%;background:var(--yellow);border-radius:4px;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout blue reveal">
+    <p><strong>投资人画像：</strong>天使轮首选<b>宠物行业内的个人天使</b>（有行业认知、能介绍殡葬店资源），次选<b>消费/硬件赛道FA推荐的投资人</b>。Pre-A轮目标<b>专注宠物赛道的早期VC</b>（如坚果资本、险峰长青、梅花创投等），他们理解宠物经济的增长逻辑。与投资人沟通的核心抓手：<b>殡葬行业72%-80%毛利率 + AI动态视频的差异化 + 每年360万只宠物离世的刚需市场</b>。</p>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 4. 回报模型 -->
+<section id="return">
+  <div class="reveal">
+    <div class="section-label"><span class="num">4</span> 回报模型</div>
+    <h2 class="section-title">投资人怎么赚钱、赚多少</h2>
+    <p class="section-desc">投资人的回报=退出时股权价值-投入成本。退出路径以被收购为主，IPO为远景目标。核心变量是门店覆盖速度和单店产出。</p>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:2rem;">
+    <h3 style="margin-bottom:1.2rem;">三年财务预测（保守/基准/乐观）</h3>
+    <table class="data-table">
+      <thead><tr><th>指标</th><th>第1年（保守）</th><th>第2年（基准）</th><th>第3年（乐观）</th></tr></thead>
+      <tbody>
+        <tr><td>合作门店</td><td>50家</td><td class="hl">200家</td><td>500家</td></tr>
+        <tr><td>硬件出货量</td><td>1,200台</td><td class="hl">6,000台</td><td>15,000台</td></tr>
+        <tr><td>视频调用次数</td><td>2,400次</td><td class="hl">18,000次</td><td>60,000次</td></tr>
+        <tr><td>硬件收入</td><td>36万</td><td class="hl">180万</td><td>450万</td></tr>
+        <tr><td>视频分成收入</td><td>2.4万</td><td class="hl">18万</td><td>60万</td></tr>
+        <tr><td>增值服务收入</td><td>0</td><td class="hl">12万</td><td>50万</td></tr>
+        <tr style="font-weight:700;"><td>年营收合计</td><td class="hl">38.4万</td><td class="hl-green">210万</td><td class="hl-green">560万</td></tr>
+        <tr><td>年净利润</td><td class="hl-red">-8万</td><td class="hl-green">52万</td><td class="hl-green">168万</td></tr>
+        <tr><td>净利率</td><td class="hl-red">-21%</td><td class="hl-green">24.8%</td><td class="hl-green">30%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid cols-2 reveal" style="margin-bottom:2rem;">
+    <div class="card">
+      <h3 style="margin-bottom:1rem;">投资人回报测算（天使轮50万/15%）</h3>
+      <table class="data-table">
+        <thead><tr><th>退出场景</th><th>公司估值</th><th>投资人股权价值</th><th>回报倍数</th><th>年化IRR</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag yellow">保守</span>第3年被收购</td><td>1,000万</td><td class="hl">150万</td><td class="hl-green">3x</td><td>~44%</td></tr>
+          <tr><td><span class="tag green">基准</span>第4年被收购</td><td>3,000万</td><td class="hl">450万</td><td class="hl-green">9x</td><td>~73%</td></tr>
+          <tr><td><span class="tag blue">乐观</span>第5年IPO/被收购</td><td>8,000万</td><td class="hl">1,200万</td><td class="hl-green">24x</td><td>~89%</td></tr>
+          <tr><td><span class="tag red">失败</span>清算</td><td>100万</td><td class="hl-red">15万</td><td class="hl-red">0.3x</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="formula-box" style="margin-top:1rem;">
+        <div class="f-title">投资人回报计算公式</div>
+        <div class="f-expr">ROI = (退出时股权价值 − 投入成本) / 投入成本</div>
+        <div class="f-desc">例：投入50万占15%，退出时公司估值3000万，则股权价值=3000万×15%=450万，ROI=(450-50)/50=9x，即9倍回报</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:1rem;">估值逻辑与推演</h3>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="padding:0.85rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.2rem;">天使轮估值：333万</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">逻辑：团队+产品方案+市场验证。宠物殡葬赛道高毛利+AI差异化，PS（市销率）按8-10x计算，基于第1年预计营收38万，合理估值300-380万。</div>
+        </div>
+        <div style="padding:0.85rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--green);margin-bottom:0.2rem;">Pre-A轮估值：1,200-1,875万</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">逻辑：已验证PMF+200家门店+月营收10万+。PS按5-7x计算，基于第2年预计营收210万，估值1,050-1,470万。加成长溢价，1,200-1,875万。</div>
+        </div>
+        <div style="padding:0.85rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--blue);margin-bottom:0.2rem;">退出估值：3,000-8,000万</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">逻辑：被宠物行业巨头（如新瑞鹏、瑞派）或AI硬件公司收购。PS按5-8x计算，基于第3年营收560万，估值2,800-4,480万。加战略收购溢价，可达5,000-8,000万。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout purple reveal">
+    <p><strong>跟投资人谈的核心逻辑：</strong>1）市场真实——每年360万只宠物离世，殡葬渗透率仅21%；2）差异化显著——AI动态视频是唯一能让宠物"重新动起来"的纪念品；3）毛利结构健康——硬件37%-47%+软件80%+；4）护城河可建——6-12个月渠道窗口期+数据飞轮；5）退出路径清晰——宠物行业并购活跃（新瑞鹏已并购超1,000家医院），战略收购确定性高。</p>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 5. 分红机制 -->
+<section id="dividend">
+  <div class="reveal">
+    <div class="section-label"><span class="num">5</span> 分红机制</div>
+    <h2 class="section-title">团队与投资人怎么分钱</h2>
+    <p class="section-desc">分红不是"有利润就分"，而是"先保证增长，再兼顾回报"。早期不分红、中期按比例、成熟期可加大分红。</p>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:2rem;">
+    <h3 style="margin-bottom:1.2rem;">三阶段分红策略</h3>
+    <table class="data-table">
+      <thead><tr><th>阶段</th><th>时间</th><th>分红策略</th><th>利润分配</th><th>原因</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag amber">验证期</span></td>
+          <td>第1年</td>
+          <td class="hl-red">不分红</td>
+          <td>全部再投入</td>
+          <td>利润为负或微利，需优先保证渠道扩张和产品迭代</td>
+        </tr>
+        <tr>
+          <td><span class="tag green">成长期</span></td>
+          <td>第2-3年</td>
+          <td class="hl">有限分红</td>
+          <td>净利润的<b style="color:var(--accent2);">20%-30%</b>用于分红</td>
+          <td>验证盈利模型，给投资人和团队"看得见的回报"，70%-80%再投入</td>
+        </tr>
+        <tr>
+          <td><span class="tag blue">成熟期</span></td>
+          <td>第4年+</td>
+          <td class="hl-green">常规分红</td>
+          <td>净利润的<b style="color:var(--green);">40%-60%</b>用于分红</td>
+          <td>增长趋稳，可加大分红比例，兼顾股东回报和业务增长</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid cols-2 reveal" style="margin-bottom:2rem;">
+    <div class="card">
+      <div class="card-icon amber">👤</div>
+      <h3>团队分红（利润分红权）</h3>
+      <p style="margin-bottom:0.75rem;">除股权外，建议设置<b style="color:var(--accent2);">利润分红权</b>（非股权性质），激励团队完成经营目标：</p>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="padding:0.65rem;background:var(--bg2);border-radius:6px;">
+          <div style="font-size:0.82rem;font-weight:600;">CEO</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">年薪6万（基本生活费）+ 年度净利润<b style="color:var(--accent2);">5%</b>的绩效奖金</div>
+        </div>
+        <div style="padding:0.65rem;background:var(--bg2);border-radius:6px;">
+          <div style="font-size:0.82rem;font-weight:600;">CTO</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">年薪5万 + 年度净利润<b style="color:var(--accent2);">3%</b>的技术达成奖金</div>
+        </div>
+        <div style="padding:0.65rem;background:var(--bg2);border-radius:6px;">
+          <div style="font-size:0.82rem;font-weight:600;">COO</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">年薪5万 + 门店拓展<b style="color:var(--accent2);">50元/店/月</b>的渠道激励</div>
+        </div>
+        <div style="padding:0.65rem;background:var(--bg2);border-radius:6px;">
+          <div style="font-size:0.82rem;font-weight:600;">产品设计师</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">年薪4万 + 产品满意度<b style="color:var(--accent2);">2%</b>的季度奖金</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🏦</div>
+      <h3>投资人分红</h3>
+      <p style="margin-bottom:0.75rem;">投资人通过<b style="color:var(--green);">股权分红</b>和<b style="color:var(--green);">股权增值退出</b>两种方式获利：</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="padding:0.75rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--green);margin-bottom:0.2rem;">路径一：股权分红</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">按持股比例参与分红。天使轮15%股权，若第3年净利润168万、分红比例30%：<br><b style="color:var(--text);">投资人年分红 = 168万 × 30% × 15% = 7.56万元</b><br>分红收益率 = 7.56万 / 50万 = 15.1%/年</div>
+        </div>
+        <div style="padding:0.75rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--blue);margin-bottom:0.2rem;">路径二：股权增值退出（主要回报来源）</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">通过股权转让或公司被收购退出。这是投资人获取回报的核心方式。<br><b style="color:var(--text);">基准场景：投入50万，退出获450万（9倍回报），远超分红收益。</b></div>
+        </div>
+        <div style="padding:0.75rem;background:var(--bg2);border-radius:8px;">
+          <div style="font-size:0.82rem;font-weight:600;color:var(--yellow);margin-bottom:0.2rem;">优先清算权</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);">投资协议中约定1x优先清算权——公司清算或被收购时，投资人优先拿回本金，剩余部分再按股权比例分配。保护投资人下行风险。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-box reveal">
+    <div class="f-title">分红计算公式</div>
+    <div class="f-expr">某股东分红 = 公司可分配利润 × 分红比例 × 该股东持股比例</div>
+    <div class="f-desc">其中：可分配利润 = 净利润 - 法定公积金(10%) - 再投入留存；分红比例由董事会按阶段决定（验证期0%、成长期20%-30%、成熟期40%-60%）</div>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 6. 风险收益矩阵 -->
+<section id="risk">
+  <div class="reveal">
+    <div class="section-label"><span class="num">6</span> 风险收益矩阵</div>
+    <h2 class="section-title">收益与风险的对赌关系</h2>
+    <p class="section-desc">不同场景下投资人和团队的收益差异巨大。理解风险收益分布，才能做出理性决策。</p>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:2rem;">
+    <h3 style="margin-bottom:1.2rem;">四维情景分析</h3>
+    <table class="data-table">
+      <thead><tr><th>维度</th><th>乐观(15%概率)</th><th>基准(50%概率)</th><th>保守(25%概率)</th><th>失败(10%概率)</th></tr></thead>
+      <tbody>
+        <tr><td><b>触发条件</b></td><td>快速铺店+视频爆款+大厂收购</td><td>稳步推进+正常增长</td><td>推进缓慢但活着</td><td>渠道打不开/技术不行</td></tr>
+        <tr><td>第3年门店</td><td class="hl-blue">500家</td><td class="hl">200家</td><td>80家</td><td class="hl-red">&lt;30家</td></tr>
+        <tr><td>第3年营收</td><td class="hl-blue">560万</td><td class="hl">210万</td><td>80万</td><td class="hl-red">&lt;20万</td></tr>
+        <tr><td>退出估值</td><td class="hl-blue">8,000万</td><td class="hl">3,000万</td><td>1,000万</td><td class="hl-red">100万(清算)</td></tr>
+        <tr style="border-top:2px solid var(--border);"><td><b>天使轮投资人</b></td><td class="hl-blue">1,200万(24x)</td><td class="hl-green">450万(9x)</td><td class="hl">150万(3x)</td><td class="hl-red">15万(0.3x)</td></tr>
+        <tr><td><b style="color:var(--accent2);">CEO股权价值</b></td><td class="hl-blue">3,200万</td><td class="hl-green">1,200万</td><td class="hl">400万</td><td class="hl-red">40万</td></tr>
+        <tr><td><b style="color:var(--green);">CTO股权价值</b></td><td class="hl-blue">1,600万</td><td class="hl-green">600万</td><td class="hl">200万</td><td class="hl-red">20万</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:2rem;">
+    <h3 style="margin-bottom:1rem;">期望收益率计算</h3>
+    <div class="formula-box" style="margin:0 0 1rem;">
+      <div class="f-title">期望回报（加权概率）</div>
+      <div class="f-expr">E[R] = Σ (概率i × 退出回报i)</div>
+      <div class="f-desc">E[R] = 15%×1200万 + 50%×450万 + 25%×150万 + 10%×15万 = 180万+225万+37.5万+1.5万 = <b style="color:var(--green);">444万元</b></div>
+    </div>
+    <div class="formula-box" style="margin:0;">
+      <div class="f-title">期望ROI</div>
+      <div class="f-expr">E[ROI] = (E[R] − 投入成本) / 投入成本</div>
+      <div class="f-desc">E[ROI] = (444万 − 50万) / 50万 = <b style="color:var(--green);">7.88倍</b>，年化约 <b style="color:var(--green);">55%</b>（按4年退出计算）</div>
+    </div>
+  </div>
+
+  <div class="risk-grid reveal">
+    <div class="risk-item">
+      <div class="risk-dot high"></div>
+      <div>
+        <div class="risk-tag high">概率 30% · 核心</div>
+        <h4>渠道推进低于预期</h4>
+        <p>殡葬店极度分散，地推效率可能低于计划。<b>损失上限</b>：50万天使轮资金耗尽，团队解散。投资人损失35万（优先清算后）。</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-dot high"></div>
+      <div>
+        <div class="risk-tag high">概率 20% · 致命</div>
+        <h4>AI视频效果不达预期</h4>
+        <p>宠物场景下AI生成视频失真率高，C端拒绝买单。<b>损失上限</b>：产品无法交付，前期硬件库存滞销。团队和投资人各承担50%损失。</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-dot mid"></div>
+      <div>
+        <div class="risk-tag mid">概率 15% · 结构性</div>
+        <h4>大厂或殡葬连锁入局</h4>
+        <p>新瑞鹏等宠物集团或抖音/快手等平台推出类似功能。<b>损失上限</b>：市场份额被挤压，估值缩水50%+。需在6-12个月内建立渠道壁垒。</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-dot low"></div>
+      <div>
+        <div class="risk-tag low">概率 5% · 合规</div>
+        <h4>宠物殡葬监管政策突变</h4>
+        <p>产品定位为"纪念品"而非"殡葬服务"，但若政策扩展到纪念品领域。<b>损失上限</b>：需调整产品定位或增加资质，延迟3-6个月。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- 7. 退出路径 -->
+<section id="exit">
+  <div class="reveal">
+    <div class="section-label"><span class="num">7</span> 退出路径</div>
+    <h2 class="section-title">投资人和团队怎么离场</h2>
+    <p class="section-desc">退出是投资人的终极目标，也是团队实现财富自由的关键节点。合理的退出设计让各方利益对齐。</p>
+  </div>
+
+  <div class="card-grid cols-3 reveal" style="margin-bottom:2rem;">
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="card-icon green">🏢</div>
+      <h3>路径一：战略收购（最可能）</h3>
+      <p style="margin-bottom:0.5rem;">被宠物行业巨头收购，这是最现实的退出路径。</p>
+      <div style="padding:0.6rem;background:var(--bg2);border-radius:6px;font-size:0.78rem;color:var(--text-dim);margin-bottom:0.5rem;">
+        <b style="color:var(--green);">潜在买方：</b>新瑞鹏（已并购1000+宠物医院）、瑞派宠物、波奇网<br>
+        <b style="color:var(--green);">收购逻辑：</b>补齐"宠物生命终章"服务链、获取AI技术能力<br>
+        <b style="color:var(--green);">预期时间：</b>第3-5年<br>
+        <b style="color:var(--green);">预期估值：</b>3,000-8,000万
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-icon blue">📊</div>
+      <h3>路径二：股权转让</h3>
+      <p style="margin-bottom:0.5rem;">在B轮或C轮时，老股东向新投资人转让部分股权退出。</p>
+      <div style="padding:0.6rem;background:var(--bg2);border-radius:6px;font-size:0.78rem;color:var(--text-dim);margin-bottom:0.5rem;">
+        <b style="color:var(--blue);">方式：</b>天使轮投资人在Pre-A或A轮时部分退出（转让30%-50%股权）<br>
+        <b style="color:var(--blue);">优势：</b>不必等到最终退出，可提前锁定部分回报<br>
+        <b style="color:var(--blue);">预期时间：</b>第2-3年<br>
+        <b style="color:var(--blue);">预期回报：</b>3-5倍
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple);">
+      <div class="card-icon purple">🚀</div>
+      <h3>路径三：IPO（远景）</h3>
+      <p style="margin-bottom:0.5rem;">如果业务持续高增长，可考虑IPO。但概率较低。</p>
+      <div style="padding:0.6rem;background:var(--bg2);border-radius:6px;font-size:0.78rem;color:var(--text-dim);margin-bottom:0.5rem;">
+        <b style="color:var(--purple);">条件：</b>年营收5000万+、净利率20%+、门店覆盖1000+<br>
+        <b style="color:var(--purple);">时间线：</b>5-7年<br>
+        <b style="color:var(--purple);">估值：</b>2-5亿元（PS 4-8x）<br>
+        <b style="color:var(--purple);">概率：</b>约10%-15%
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-track reveal">
+    <div class="ms-item">
+      <div class="ms-dot"></div>
+      <div class="ms-phase">第1-6个月 · 验证期</div>
+      <h4>找到PMF，证明有人买单</h4>
+      <p>5-10家门店免费铺样机，月视频调用50次+，客户好评率80%+。验证B端愿意推、C端愿意付。若3个月内视频调用为0，及时止损。</p>
+      <div class="ms-tags"><span>50台样机</span><span>5-10家门店</span><span>月调用50次+</span></div>
+    </div>
+    <div class="ms-item">
+      <div class="ms-dot"></div>
+      <div class="ms-phase">第7-18个月 · 起飞期</div>
+      <h4>规模化复制，跑出财务模型</h4>
+      <p>覆盖100家门店，月出货500台，月视频调用2000次，月净利润5万+。触发Pre-A轮融资谈判。若18个月内门店不足50家，考虑转型或退出。</p>
+      <div class="ms-tags"><span>100家门店</span><span>月销500台</span><span>Pre-A融资</span></div>
+    </div>
+    <div class="ms-item">
+      <div class="ms-dot"></div>
+      <div class="ms-phase">第19-36个月 · 扩张期</div>
+      <h4>渠道壁垒+数据飞轮，开始接触买方</h4>
+      <p>覆盖300-500家门店，自训练模型上线，月营收30万+。开始与新瑞鹏等战略买方接触，探索并购或深度合作可能性。</p>
+      <div class="ms-tags"><span>300+门店</span><span>自训练模型</span><span>战略买方接触</span></div>
+    </div>
+    <div class="ms-item">
+      <div class="ms-dot"></div>
+      <div class="ms-phase">第37-60个月 · 退出期</div>
+      <h4>完成退出或继续独立发展</h4>
+      <p>根据业务表现选择退出路径：战略收购（最可能）、股权转让（部分退出）、IPO（远景）。目标：投资人获得5-10倍回报，团队实现财务自由。</p>
+      <div class="ms-tags"><span>5-10x回报</span><span>战略收购/IPO</span><span>财务自由</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" style="max-width:1200px;margin:0 auto;">
+
+<!-- VERDICT -->
+<section>
+  <div class="verdict reveal">
+    <div class="section-label" style="justify-content:center;"><span class="num">★</span> 一句话结论</div>
+    <h2>用50万赌一个年50亿增速25%的蓝海赛道，3年可退出，<br>期望回报7.9倍，最差亏35万，值得下注</h2>
+    <div class="callout green" style="text-align:left;margin-top:1.5rem;">
+      <p><strong>给创始人的建议：</strong>先用自己的10-15万做3个月MVP验证，拿到真实数据再去找天使投资。有数据加持，估值可以从300万谈到500万，少出让5%的股权。记住：融资不是目的，活着且增长才是。不要为了融到钱而过度出让股权——每一%都是未来的百万级财富。</p>
+    </div>
+    <div class="callout blue" style="text-align:left;margin-top:1rem;">
+      <p><strong>给投资人的建议：</strong>这是一个"下行有限、上行可观"的早期项目。最差情况清算拿回15万（1x优先清算权），亏损35万；基准情况9倍回报，IRR约73%。建议用"可转债"方式投资——先以借款形式投入，下一轮时以8折估值转为股权，既保护下行又享受上行。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>AI宠物纪念相框 · 商业计划书 · 2026年6月</p>
+  <p style="margin-top:0.3rem;">本计划书基于市场调研和财务推算，其中预测数据不构成收益承诺</p>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav .links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { const top = s.offsetTop - 100; if (scrollY >= top) current = s.id; });
+  navLinks.forEach(a => {
+    a.style.color = ''; a.style.background = '';
+    if (a.getAttribute('href') === '#' + current) { a.style.color = 'var(--text)'; a.style.background = 'var(--accent-dim)'; }
+  });
+});
+</script>
+
+</body>
+</html>
